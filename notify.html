@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification API Example</title>
+</head>
+<body>
+    <button onclick="requestNotificationPermission()">Request Notification Permission</button>
+    <button onclick="showNotification()">Show Notification</button>
+
+    <script>
+        function requestNotificationPermission() {
+            if (Notification.permission === "default") {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === "granted") {
+                        alert("Notification permission granted.");
+                    } else {
+                        alert("Notification permission denied.");
+                    }
+                });
+            } else {
+                alert("Notification permission already granted or denied.");
+            }
+        }
+
+        function showNotification() {
+            if (Notification.permission === "granted") {
+                console.log("notification")
+                new Notification("This is a notification!", {
+                    body: "You have a new message.",
+                    icon: "https://via.placeholder.com/80" // Optional icon
+                });
+            } else {
+                alert("Notification permission is not granted.");
+            }
+        }
+    </script>
+</body>
+</html>

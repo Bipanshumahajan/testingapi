@@ -32,32 +32,39 @@
         <button class="button" onclick="addToContacts()">Add to Contacts</button>
     </div>
 
+    <!-- Include vCard library from the correct CDN -->
     <script src="https://cdn.jsdelivr.net/npm/vcard-js@1.2.2/index.min.js"></script>
     <script>
         function addToContacts() {
-            // Create a vCard object
-            var vCard = new vCardsJS();
-            vCard.firstName = 'John';
-            vCard.lastName = 'Doe';
-            vCard.organization = 'Web Developer';
-            vCard.email = 'john.doe@example.com';
-            vCard.cellPhone = '+1234567890';
+            try {
+                // Create a vCard object
+                var vCard = new vCard();
+                vCard.firstName = 'John';
+                vCard.lastName = 'Doe';
+                vCard.organization = 'Web Developer';
+                vCard.email = 'john.doe@example.com';
+                vCard.cellPhone = '+1234567890';
 
-            // Generate vCard data as a string
-            var vCardData = vCard.getFormattedString();
+                // Generate vCard data as a string
+                var vCardData = vCard.getFormattedString();
 
-            // Create a Blob with vCard data
-            var blob = new Blob([vCardData], { type: 'text/vcard' });
-            var url = URL.createObjectURL(blob);
+                // Create a Blob with vCard data
+                var blob = new Blob([vCardData], { type: 'text/vcard' });
+                var url = URL.createObjectURL(blob);
 
-            // Create an invisible link element and click it to trigger download
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'John_Doe.vcf';
-            a.click();
+                // Create an invisible link element and click it to trigger download
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'John_Doe.vcf';
+                document.body.appendChild(a); // Append the link to the body
+                a.click(); // Trigger the download
+                document.body.removeChild(a); // Remove the link from the document
 
-            // Clean up
-            URL.revokeObjectURL(url);
+                // Clean up
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error creating or downloading vCard:', error);
+            }
         }
     </script>
 </body>

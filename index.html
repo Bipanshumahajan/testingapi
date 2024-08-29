@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Business Card</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>John Doe</h2>
+        <p>Web Developer</p>
+        <p>Email: john.doe@example.com</p>
+        <p>Phone: +1234567890</p>
+        <button class="button" onclick="addToContacts()">Add to Contacts</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vcards-js/0.9.0/vcards-js.min.js"></script>
+    <script>
+        function addToContacts() {
+            // Create a vCard object
+            var vCard = new vCardsJS();
+            vCard.firstName = 'John';
+            vCard.lastName = 'Doe';
+            vCard.organization = 'Web Developer';
+            vCard.email = 'john.doe@example.com';
+            vCard.cellPhone = '+1234567890';
+
+            // Generate vCard data as a string
+            var vCardData = vCard.getFormattedString();
+
+            // Create a Blob with vCard data
+            var blob = new Blob([vCardData], { type: 'text/vcard' });
+            var url = URL.createObjectURL(blob);
+
+            // Create an invisible link element and click it to trigger download
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'John_Doe.vcf';
+            a.click();
+
+            // Clean up
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

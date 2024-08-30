@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download vCard</title>
+</head>
+<body>
+    <h1>Download Eric's vCard</h1>
+    <button id="downloadBtn">Download vCard</button>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Create the vCard content
+            var vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+FN:Eric J Nesser
+N:Nesser;Eric;J;;
+ORG:ACME Corporation
+TEL;WORK:312-555-1212
+BDAY:19850101
+TITLE:Software Developer
+PHOTO;VALUE=URL;TYPE=JPEG:https://avatars2.githubusercontent.com/u/5659221?v=3&s=460
+URL:https://github.com/enesser
+NOTE:Notes on Eric
+END:VCARD
+`;
+
+            // Create a Blob from the vCard string
+            var blob = new Blob([vCardData], { type: 'text/vcard' });
+
+            // Create a link element for download
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'eric-nesser.vcf';  // Filename
+
+            // Append link to the body (required for Firefox)
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+
+            // Remove the link from the document
+            document.body.removeChild(link);
+        });
+    </script>
+</body>
+</html>
